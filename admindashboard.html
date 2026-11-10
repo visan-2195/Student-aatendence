@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div>🛡️ Admin System Dashboard</div>
+    <div>
+        <a href="../index.html">Logout</a>
+    </div>
+</div>
+
+<div class="box" style="width: 80%; max-width: 800px;">
+    <h2>Attendance Record Master Stream</h2>
+    <div id="data"></div>
+    <h3 id="percent"></h3>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("attendance")) || [];
+let div = document.getElementById("data");
+let total = 0, present = 0;
+
+data.forEach(day => {
+    let h = document.createElement("h4");
+    h.innerText = "Date: " + day.date;
+    div.appendChild(h);
+
+    day.records.forEach(r => {
+        let p = document.createElement("p");
+        p.innerText = r.name + " - " + (r.present ? "Present" : "Absent");
+        div.appendChild(p);
+
+        total++;
+        if(r.present) present++;
+    });
+});
+
+let percent = total ? ((present/total)*100).toFixed(2) : 0;
+document.getElementById("percent").innerText = "Global Attendance Score: " + percent + "%";
+</script>
+
+</body>
+</html>
